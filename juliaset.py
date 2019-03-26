@@ -15,7 +15,7 @@ def plot(c_value, max_iteration_count, height=500, width=500):
             z_ij = complex(x_i, y_j)
             count = _count_iterations(z_ij, c_value, max_iteration_count, r_value)
             pixels[i, j] = _get_color(count, max_iteration_count, abs(z_ij) / r_value)
-    bitmap.show()
+    bitmap.save("temp.bmp")
 
 
 def _count_iterations(z_0, c_value, iteration_count, r_value):
@@ -38,6 +38,6 @@ def _get_color(count, max_count, z_to_r_ratio):
     return (
         int(255 * count_ratio),
         int(255 * (1 - count_ratio)),
-        int(255 * max(1, z_to_r_ratio))
+        int(255 * min(1, z_to_r_ratio))
 
     )
