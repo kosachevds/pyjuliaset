@@ -1,25 +1,20 @@
 import math
 from PIL import Image
+import numpy as np
 
 
 def plot(c_value, max_iteration_count, height=500, width=500):
     r_value = _compute_r(c_value)
-    x_min = -r_value
-    y_min = -r_value
-    x_max = r_value
-    y_max = r_value
-    x_step = abs(x_min - x_max) / width
-    y_step = abs(y_min - y_max) / height
+    x_list = np.linspace(-r_value, r_value, width)
+    y_list = np.linspace(-r_value, r_value, height)
 
     bitmap = Image.new("RGB", (width, height), "white")
     pixels = bitmap.load()
-    for i in range(width):
-        x_i = x_min + i * x_step
-        for j in range(height):
-            y_j = y_min + j * y_step
+    for i, x_i in enumerate(x_list):
+        for j, y_j in enumerate(y_list):
             z_ij = complex(x_i, y_j)
             count = _count_iterations(z_ij, c_value, max_iteration_count, r_value)
-            pixels[i, j] = _get_color(count, max_iteration_count, abs(z_ij) / r)
+            pixels[i, j] = _get_color(count, max_iteration_count, abs(z_ij) / r_value)
     bitmap.show()
 
 
