@@ -45,3 +45,7 @@ def _compute_points(z_0, c_value, iteration_count, r_value):
 
 def _compute_r(c_value):
     return (1 + math.sqrt(1 + 4 * abs(c_value))) / 2
+
+
+def _get_color(i):
+    return (i << 21) + (i << 10) + i * 8
