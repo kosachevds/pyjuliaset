@@ -17,9 +17,9 @@ def plot(c_value, max_iteration_count, height=500, width=500):
         x_i = x_min + i * x_step
         for j in range(height):
             y_j = y_min + j * y_step
-            z_0 = complex(x_i, y_j)
-            count = _count_iterations(z_0, c_value, max_iteration_count, r_value)
-            pixels[i, j] = _get_color(count)
+            z_ij = complex(x_i, y_j)
+            count = _count_iterations(z_ij, c_value, max_iteration_count, r_value)
+            pixels[i, j] = _get_color(count, max_iteration_count, abs(z_ij) / r)
     bitmap.show()
 
 
@@ -38,5 +38,11 @@ def _compute_r(c_value):
     return (1 + math.sqrt(1 + 4 * abs(c_value))) / 2
 
 
-def _get_color(i):
-    return (i << 21) + (i << 10) + i * 8
+def _get_color(count, max_count, z_to_r_ratio):
+    count_ratio = count / max_count
+    return (
+        int(255 * count_ratio),
+        int(255 * (1 - count_ratio)),
+        int(255 * max(1, z_to_r_ratio))
+
+    )
